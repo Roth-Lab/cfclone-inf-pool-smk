@@ -1,0 +1,50 @@
+# See schema for details
+out_dir: <path/to/out_dir>
+pipeline_dir: <path/to/pipeline_dir>
+
+clone_filter_file: <path/to/clone_filter_file.tsv>
+sc_data_file: <path/to/hapclone_data.h5>
+hapclone_results_file: <path/to/hapclone_results.tsv.gz>
+snp_file: <path/to/patient_snps.bcf>
+
+coverage:
+  - 1
+  - 5
+tumour_content:
+  - 0.01
+  - 0.1
+clone_prevalences:
+  - <path/to/clone_prevalence_1.tsv>
+  - <path/to/clone_prevalence_2.tsv>
+num_replicates: 2
+
+clone_set_files:
+  - <path/to/clone_set_1.tsv.gz>
+  - <path/to/clone_set_2.tsv.gz>
+
+
+num_bins: 
+  - 100
+read_length: 150
+
+num_chains: 12
+num_chains_vi: 12
+num_rounds: 10
+num_threads: 10
+sampler: disable
+use_outlier: true
+
+generate_data_only: True
+
+hdis:
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
+  - 0.5
+  - 0.6
+  - 0.7
+  - 0.8
+  - 0.85
+  - 0.90
+  - 0.95
