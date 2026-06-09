@@ -135,37 +135,37 @@ use rule run_cfclone from cfclone as cfclone_run_cfclone with:
         o=config.get_cfclone_use_outlier_arg,
 
 
-# rule build_replicate_summary:
-#     input:
-#         e=config.replicate_evidence_template,
-#         t=config.replicate_tumour_content_template,
-#     output:
-#         config.replicate_summary_template
-#     params:
-#         c=config.get_coverage_arg,
-#         t=config.get_tumour_content_arg,
-#     conda:
-#         "envs/python.yaml"
-#     log:
-#         config.get_log_file(config.replicate_summary_template)
-#     shell:
-#         "(python scripts/write_summary_file.py "
-#         "-e {input.e} "
-#         "-t {input.t} "
-#         "-o {output} "
-#         "--coverage {params.c} "
-#         "--tumour-content {params.t} "
-#         "--replicate {wildcards.data_seed} ) >{log} 2>&1"
+rule build_summary_file:
+    input:
+        e=config.merged_evidence_file,
+        t=config.merged_tumour_content_file,
+    output:
+        config.cfclone_summary_file
+    params:
+        c=config.get_coverage
+        t=config.get_tumour_content
+    conda:
+        "envs/python.yaml"
+    log:
+        config.get_log_file(config.cfclone_summary_file)
+    shell:
+        "(python scripts/write_cfclone_summary_file.py "
+        "--out-file {output} "
+        "--evidence-file {input.e} "
+        "--tumour-content-file {input.t} "
+        "--coverage {params.c} "
+        "--tumour-content {params.t} "
+        "--data-seed {wildcards.data_seed_id} ) >{log} 2>&1"
 
 
-# rule merge_summaries:
-#     input:
-#         config.get_summaries
-#     output:
-#         config.summary_file,
-#     conda:
-#         "envs/python.yaml"
-#     log:
-#         config.get_log_file(config.summary_file),
-#     shell:
-#         "(python scripts/merge_tables.py -i {input} -o {output}) >{log} 2>&1"
+rule merge_summaries:
+    input:
+        config.gather_files(config.cfclone_summary_file)
+    output:
+        config.summary_file,
+    conda:
+        "envs/python.yaml"
+    log:
+        config.get_log_file(config.summary_file),
+    shell:
+        "(python scripts/merge_tables.py -i {input} -o {output}) >{log} 2>&1"

@@ -19,7 +19,7 @@ def main(args):
     
     df.insert(1, 'tumour_content', args.tumour_content)
     
-    df.insert(2, 'replicate', args.replicate)
+    df.insert(2, 'data_seed', args.data_seed)
 
     df.to_csv(args.out_file, index=False, sep="\t")
 
@@ -29,17 +29,17 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser()
 
+    parser.add_argument("-o", "--out-file", required=True)
+    
     parser.add_argument("-e", "--evidence-file", required=True)
     
     parser.add_argument("-t", "--tumour-content-file", required=True)
-    
-    parser.add_argument("-o", "--out-file", required=True)
     
     parser.add_argument("--coverage", required=True, type=float)
     
     parser.add_argument("--tumour-content", required=True, type=float)
     
-    parser.add_argument("--replicate", required=True, type=int)
+    parser.add_argument("--data-seed", required=True, type=int)
     
     cli_args = parser.parse_args()
     

@@ -188,73 +188,69 @@ class ConfigManager(object):
     def merged_summary_file(self):
         return self.cfclone_out_dir.joinpath("summary.tsv")
     
+    # CFCLONE SUMMARY FILES 
+    
+    @property
+    def cfclone_summary_file(self):
+        return self.tmp_dir.joinpath(
+            "cfclone",
+            "coverage_{coverage_id}",
+            "tc_{tumour_content_id}",
+            "data_seed_{data_seed_id}",
+            "cfclone_summary_file.tsv"
+        )
+    
     # SUMMARY FILES 
     
     @property
     def copied_config(self):
-        return self.out_dir.joinpath("outputs", "config.yaml")
+        return self.out_dir.joinpath("config.yaml")
     
     @property
     def summary_file(self):
-        return self.out_dir.joinpath("outputs", "summary.tsv")
-    
-    @property
-    def power_calc_plot_file(self):
-        return self.out_dir.joinpath("outputs", "power_calc.png")
-    
-    @property
-    def fits_plot_file(self):
-        return self.out_dir.joinpath("outputs", "fits.pdf")
-    
-    @property
-    def trace_plots_file(self):
-        return self.out_dir.joinpath("outputs", "trace_plots.pdf")
+        return self.out_dir.joinpath("summary.tsv")
 
     @property
-    def pipeline_files(self):
+    def pipeline_files(self) -> list[str]:
         
-        files = []
+        file_templates = (
+            self.experiment_configuration,
+            self.merged_tumour_content_file,
+            self.merged_evidence_file,
+            self.merged_summary_file
+        )
         
-        for cov in self.coverage_ids:
-            
-            for tc in self.tumour_content_ids:
-                
-                for ds in range(self.num_data_replicates):
-                
-                    files.append(
-                        str(self.experiment_configuration).format(
-                            coverage_id=cov,
-                            tumour_content_id=tc,
-                            data_seed_id=ds,
-                        )
-                    )
-                    
-                    
-                    files.append(
-                        str(self.merged_tumour_content_file).format(
-                            coverage_id=cov,
-                            tumour_content_id=tc,
-                            data_seed_id=ds,
-                        )
-                    )
-                    
-                    files.append(
-                        str(self.merged_evidence_file).format(
-                            coverage_id=cov,
-                            tumour_content_id=tc,
-                            data_seed_id=ds,
-                        )
-                    )
-                    
-                    files.append(
-                        str(self.merged_summary_file).format(
-                            coverage_id=cov,
-                            tumour_content_id=tc,
-                            data_seed_id=ds,
-                        )
-                    )
+        cfclone_files = [
+            str(file).format(
+                coverage_id=cov,
+                tumour_content_id=tc,
+                data_seed_id=ds
+            )
+            for cov, tc, ds in product(
+                self.coverage_ids,
+                self.tumour_content_ids, 
+                range(self.num_data_replicates)
+                )
+            for file in file_templates
+        ]
         
-        return files
+        return [self.copied_config] + cfclone_files
+
+    
+    def gather_files(self, file_template: str) -> list[str]:
+        return [
+            file_template.format(
+                coverage_id=cov,
+                tumour_content_id=tc,
+                data_seed_id=ds,
+            ) 
+            for cov, tc, ds in product(
+                self.coverage_ids, 
+                self.tumour_content_ids, 
+                range(self.num_data_replicates)
+            )
+        ]
+
     
     # HELPER FUNCTIONS FOR RULES 
 
