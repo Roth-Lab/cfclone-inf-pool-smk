@@ -82,12 +82,17 @@ def get_state_map(A):
 
 
 if __name__ == "__main__":
+    
     import argparse
     
-    def num_bins_parser(arg):
-        if arg == "all":
+    def num_bins_parser(arg) -> str | int:
+       
+        if (arg is None) or (arg == "all"):
+            
             return arg
+        
         else:
+            
             return int(arg)
 
     parser = argparse.ArgumentParser()

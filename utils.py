@@ -26,11 +26,11 @@ class ConfigManager(object):
     
     @property
     def num_data_replicates(self):
-        return self.config.get("num_data_replicates", 1)
+        return self.config["num_data_replicates"]
      
     @property
     def num_model_replicates(self):
-        return self.config.get("num_model_replicates", 1)
+        return self.config["num_model_replicates"]
   
     # DATA GENERATION SETTINGS 
     
@@ -38,13 +38,13 @@ class ConfigManager(object):
     def clone_prevalences(self):
         return self.config['clone_prevalences']
 
-    @property
-    def num_bins(self):
-        return self.config['num_bins']
+    # @property
+    # def num_bins(self):
+    #     return self.config['num_bins']
 
     @property
     def read_length(self):
-        return self.config.get("read_length", 150)
+        return self.config["read_length"]
     
     # CFCLONE SETTINGS 
     
@@ -64,15 +64,15 @@ class ConfigManager(object):
         
     @property
     def num_chains(self):
-        return self.config.get("num_chains", 16)
+        return self.config["num_chains"]
 
     @property
     def num_rounds(self):
-        return self.config.get("num_rounds", 10)
+        return self.config["num_rounds"]
 
     @property
     def num_threads(self):
-        return self.config.get("num_threads", 1)
+        return self.config["num_threads"]
     
     @property
     def cfclone_use_outlier(self):
@@ -262,13 +262,13 @@ class ConfigManager(object):
     def get_tumour_content_arg(self, wildcards):
         return float(self.tumour_content[int(wildcards.tumour_content_id)])
     
-    @property
-    def get_num_bins_arg(self):
-        num_bins_args = self.num_bins
-        if num_bins_args == "all":
-            return num_bins_args
-        else:
-            return int(num_bins_args)
+    # @property
+    # def get_num_bins_arg(self):
+    #     num_bins_args = self.num_bins
+    #     if num_bins_args == "all":
+    #         return num_bins_args
+    #     else:
+    #         return int(num_bins_args)
         
     @property
     def get_cfclone_use_outlier_arg(self):

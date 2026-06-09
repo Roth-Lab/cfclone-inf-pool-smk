@@ -11,7 +11,6 @@ properties:
     type: string
     minLength: 1
     description: Path to pipeline working directory
-
   clone_filter_file:
     type: string
     minLength: 1
@@ -28,7 +27,10 @@ properties:
     type: string
     minProperties: 1
     description: Path to file with patient SNP calls in BCF/VCF format with index
-
+  clone_prevalences:
+    type: string
+    minLength: 1
+    description: Path to file with specified clone prevalences to use for simulation
   coverage:
     type: array
     contains:
@@ -41,50 +43,35 @@ properties:
       "type": "number"
     minContains: 1
     description: List of tumour content values to test
+  num_data_replicates:
+    type: integer
+    minimum: 1
+    default: 1
+    description: Number of seeds to use when generate data 
   num_model_replicates:
     type: integer
     minimum: 1
     default: 1
-    description: Number of replicates per setting of coverage and tumour content
-  clone_prevalences:
-    type: string
-    minLength: 1
-    description: List of paths to files with specified clone prevalences to use for simulation
-  num_bins:
-    type: ["integer", "string"]
-    minimum: 0
-    default: [0]
-    description: Number of bins to sample for inference. Default 0 uses all bins
+    description: Number of replicates per setting of coverage, tumour content, and data replicate
   read_length:
     type: integer
     default: 150
     description: Read length of data used for scWGS sequencing
-
-
   num_chains:
     type: integer
     minimum: 1
-    default: 16
+    default: 2
     description: Number of parallel tempering chains used for reference distribution
-  num_chains_vi:
-    type: integer
-    minimum: 1
-    default: 8
-    description: Number of parallel tempering chains used for variational distribution
   num_rounds:
     type: integer
     minimum: 1
-    default: 10
+    default: 2
     description: Number of rounds of sampling
   num_threads:
     type: integer
     minimum: 1
-    default: 10
+    default: 2
     description: Number of threads to use for sampling
-  run_single_clone_model:
-    type: boolean
-    default: false
-    description: Whether to run cfclone with additional models including only a single clone and the normal population
   cfclone_use_outlier:
     type: boolean
     default: true
@@ -99,6 +86,7 @@ required: [
   "snp_file",
   "coverage",
   "tumour_content",
+  "num_data_replicates",
   "num_model_replicates",
   "clone_prevalences",
 ]
