@@ -1,4 +1,6 @@
-import pathlib
+from pathlib import Path
+
+from itertools import product
 
 from snakemake.shell import shell
 
@@ -82,29 +84,29 @@ class ConfigManager(object):
     
     @property
     def clone_filter_file(self):
-        return pathlib.Path(self.config["clone_filter_file"]).resolve()
+        return Path(self.config["clone_filter_file"]).resolve()
 
     @property
     def hapclone_data_file(self):
-        return pathlib.Path(self.config["hapclone_data_file"]).resolve()
+        return Path(self.config["hapclone_data_file"]).resolve()
 
     @property
     def hapclone_results_file(self):
-        return pathlib.Path(self.config["hapclone_results_file"]).resolve()
+        return Path(self.config["hapclone_results_file"]).resolve()
 
     @property
     def snp_file(self):
-        return pathlib.Path(self.config["snp_file"]).resolve()
+        return Path(self.config["snp_file"]).resolve()
 
     # OUTPUT DIRECTORIES FILES 
     
     @property
     def out_dir(self):
-        return pathlib.Path(self.config["out_dir"]).resolve()
+        return Path(self.config["out_dir"]).resolve()
 
     @property
     def pipeline_dir(self):
-        return pathlib.Path(self.config["pipeline_dir"]).resolve()
+        return Path(self.config["pipeline_dir"]).resolve()
 
     @property
     def log_dir(self):
@@ -309,7 +311,7 @@ class ConfigManager(object):
     
     def notification(self, on: str, workflow: str, configfile: str, imgs: list[str] | None = None) -> None:
 
-        configfile = pathlib.Path(configfile).resolve()
+        configfile = Path(configfile).resolve()
 
         msg_template = "configfile:{config}"
 
@@ -367,7 +369,7 @@ class ConfigManager(object):
         
         for img in imgs:
             
-            file_path = pathlib.Path(img)
+            file_path = Path(img)
             
             file_size = file_path.stat().st_size
             
