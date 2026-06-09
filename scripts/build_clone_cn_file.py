@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
     parser.add_argument("-c", "--clone-filter-file", default=None)
 
-    parser.add_argument("-n", "--num-bins", type=num_bins_parser)
+    parser.add_argument("-n", "--num-bins", type=num_bins_parser, default=None)
 
     cli_args = parser.parse_args()
 

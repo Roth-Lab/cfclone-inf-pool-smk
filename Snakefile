@@ -59,10 +59,9 @@ rule build_cfclone_clone_cn_files:
         config.get_log_file(config.cfclone_clone_cn_template),
     shell:
         "(python scripts/build_clone_cn_file.py "
-        "-c {input.c} "
-        "-i {input.i} "
-        # "-n {params} "
-        "-o {output} ) >{log} 2>&1"
+        "--out-file {output} "
+        "--in-file {input.i} "
+        "--clone-filter-file {input.c} ) >{log} 2>&1"
 
 
 rule build_cfclone_ctdna_file:
