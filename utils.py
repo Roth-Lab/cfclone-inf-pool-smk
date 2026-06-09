@@ -258,10 +258,10 @@ class ConfigManager(object):
     
     # HELPER FUNCTIONS FOR RULES 
 
-    def get_coverage_arg(self, wildcards):
+    def get_coverage(self, wildcards):
         return float(self.coverage[int(wildcards.coverage_id)])
 
-    def get_tumour_content_arg(self, wildcards):
+    def get_tumour_content(self, wildcards):
         return float(self.tumour_content[int(wildcards.tumour_content_id)])
     
     # @property

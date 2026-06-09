@@ -76,8 +76,8 @@ rule build_cfclone_ctdna_file:
     params:
         r=config.read_length,
         p=config.clone_prevalences,
-        c=config.get_coverage_arg,
-        t=config.get_tumour_content_arg,
+        c=config.get_coverage,
+        t=config.get_tumour_content,
     conda:
         "envs/python.yaml"
     log:
