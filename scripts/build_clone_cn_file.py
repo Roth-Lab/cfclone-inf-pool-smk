@@ -89,7 +89,7 @@ if __name__ == "__main__":
        
         if (arg is None) or (arg == "all"):
             
-            return arg
+            return "all"
         
         else:
             
