@@ -141,7 +141,7 @@ rule build_summary_file:
     output:
         config.cfclone_summary_file
     params:
-        c=config.get_coverage
+        c=config.get_coverage,
         t=config.get_tumour_content
     conda:
         "envs/python.yaml"
