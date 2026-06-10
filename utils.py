@@ -239,7 +239,7 @@ class ConfigManager(object):
     
     def gather_files(self, file_template: str) -> list[str]:
         return [
-            file_template.format(
+            str(file_template).format(
                 coverage_id=cov,
                 tumour_content_id=tc,
                 data_seed_id=ds,
