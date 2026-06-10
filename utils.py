@@ -40,10 +40,6 @@ class ConfigManager(object):
     def clone_prevalences(self):
         return self.config['clone_prevalences']
 
-    # @property
-    # def num_bins(self):
-    #     return self.config['num_bins']
-
     @property
     def read_length(self):
         return self.config["read_length"]
@@ -260,14 +256,6 @@ class ConfigManager(object):
     def get_tumour_content(self, wildcards):
         return float(self.tumour_content[int(wildcards.tumour_content_id)])
     
-    # @property
-    # def get_num_bins_arg(self):
-    #     num_bins_args = self.num_bins
-    #     if num_bins_args == "all":
-    #         return num_bins_args
-    #     else:
-    #         return int(num_bins_args)
-        
     @property
     def get_cfclone_use_outlier_arg(self):
         if self.cfclone_use_outlier:

@@ -51,8 +51,6 @@ rule build_cfclone_clone_cn_files:
         i=config.hapclone_results_file,
     output:
         config.cfclone_clone_cn_template,
-    # params:
-    #     config.get_num_bins_arg
     conda:
         "envs/python.yaml"
     log:
