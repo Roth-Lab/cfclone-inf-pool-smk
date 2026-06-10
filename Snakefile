@@ -31,6 +31,8 @@ onerror:
     )
 
 
+localrules: build_config_file, build_cfclone_clone_cn_files, build_cfclone_input_clone_cn_file
+
 rule all:
     input:
         config.pipeline_files,
