@@ -339,9 +339,9 @@ class ConfigManager(object):
             
             else:
                 
-                cmd_template = "echo {msg} | mail {sub} {att} {email}"
+                cmd_template = "echo {msg} | mail {sub} {email}"
 
-                cmd = cmd_template.format(msg=msg, sub=subj, att=att, email=self.email)
+                cmd = cmd_template.format(msg=msg, sub=subj, email=self.email)
 
         else:
 
