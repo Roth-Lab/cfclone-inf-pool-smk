@@ -146,7 +146,7 @@ rule build_summary_file:
     log:
         config.get_log_file(config.cfclone_summary_file)
     shell:
-        "(python scripts/write_cfclone_summary_file.py "
+        "(python scripts/write_summary_file.py "
         "--out-file {output} "
         "--evidence-file {input.e} "
         "--tumour-content-file {input.t} "
