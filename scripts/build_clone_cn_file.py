@@ -24,19 +24,19 @@ def main(args):
 
         df = df[df["clone"].isin(clones)]
 
-    bin_df = df[["chrom", "start", "end"]].drop_duplicates()
+    # bin_df = df[["chrom", "start", "end"]].drop_duplicates()
     
-    if args.num_bins != 'all':
+    # if args.num_bins != 'all':
 
-        if 0 < args.num_bins < bin_df.shape[0]:
+    #     if 0 < args.num_bins < bin_df.shape[0]:
             
-            idxs = np.random.choice(bin_df.shape[0], replace=False, size=args.num_bins)
+    #         idxs = np.random.choice(bin_df.shape[0], replace=False, size=args.num_bins)
 
-            idxs = sorted(idxs)
+    #         idxs = sorted(idxs)
 
-            bin_df = bin_df.iloc[idxs]
+    #         bin_df = bin_df.iloc[idxs]
 
-            df = pd.merge(df, bin_df, on=["chrom", "start", "end"])
+    #         df = pd.merge(df, bin_df, on=["chrom", "start", "end"])
 
     df.to_csv(args.out_file, index=False, sep="\t")
 
@@ -85,15 +85,15 @@ if __name__ == "__main__":
     
     import argparse
     
-    def num_bins_parser(arg) -> str | int:
+    # def num_bins_parser(arg) -> str | int:
        
-        if (arg is None) or (arg == "all"):
+    #     if (arg is None) or (arg == "all"):
             
-            return "all"
+    #         return "all"
         
-        else:
+    #     else:
             
-            return int(arg)
+    #         return int(arg)
 
     parser = argparse.ArgumentParser()
 
@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
     parser.add_argument("-c", "--clone-filter-file", default=None)
 
-    parser.add_argument("-n", "--num-bins", type=num_bins_parser, default=None)
+    # parser.add_argument("-n", "--num-bins", type=num_bins_parser, default=None)
 
     cli_args = parser.parse_args()
 
