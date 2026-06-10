@@ -234,7 +234,7 @@ class ConfigManager(object):
             for file in file_templates
         ]
         
-        return [self.copied_config] + cfclone_files
+        return [self.copied_config] + cfclone_files + [self.summary_file]
 
     
     def gather_files(self, file_template: str) -> list[str]:
