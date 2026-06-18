@@ -78,7 +78,8 @@ class ConfigManager(object):
     
     @property
     def clone_tree_nwk_file(self):
-        return self.config['clone_tree_nwk_file']
+        # return self.config['clone_tree_nwk_file']
+        return self.config.get('clone_tree_nwk_file')
 
     # INPUT FILES FOR DATA GEN
     
