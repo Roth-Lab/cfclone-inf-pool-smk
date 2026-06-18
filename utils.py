@@ -51,7 +51,7 @@ class ConfigManager(object):
         return {
             "ctdna_file": str(self.cfclone_ctdna_template),
             "clone_cn_file": str(self.cfclone_clone_cn_template),
-            "clone_tree_newick": str(None), # cfclone-smk needs o.w. schema validation
+            "clone_tree_newick": str(self.clone_tree_nwk_file),
             "num_chains": self.num_chains,
             "num_rounds": self.num_rounds,
             "num_threads": self.num_threads,
@@ -74,7 +74,11 @@ class ConfigManager(object):
     
     @property
     def cfclone_use_outlier(self):
-        return self.config['cfclone_use_outlier']    
+        return self.config['cfclone_use_outlier']
+    
+    @property
+    def clone_tree_nwk_file(self):
+        return self.config['clone_tree_nwk_file']
 
     # INPUT FILES FOR DATA GEN
     
@@ -213,13 +217,16 @@ class ConfigManager(object):
     @property
     def pipeline_files(self) -> list[str]:
         
-        file_templates = (
+        file_templates = [
             self.experiment_configuration,
             self.merged_tumour_content_file,
             self.merged_evidence_file,
-            self.merged_prevalence_file,
             self.merged_summary_file
-        )
+        ]
+        
+        if self.clone_tree_nwk_file is not None:
+            
+            file_templates.append(self.merged_prevalence_file)
         
         cfclone_files = [
             str(file).format(
