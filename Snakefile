@@ -185,7 +185,7 @@ rule build_prevs_summary_file:
     shell:
         "(python scripts/write_prevs_summary_file.py "
         "--out-file {output} "
-        "--prevalence-file {input.e} "
+        "--prevalence-file {input} "
         "--coverage {params.c} "
         "--tumour-content {params.t} "
         "--data-seed {wildcards.data_seed_id} ) >{log} 2>&1"
