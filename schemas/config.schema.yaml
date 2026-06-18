@@ -16,10 +16,10 @@ properties:
     minLength: 1
     description: Path to file with which clones to keep
   clone_tree_nwk_file:
-    type: string
+    type: ["string", "null"]
     minLength: 1
     description: Path to .nwk file of clone phylogeny outputted by HapClone.
-    default: None
+    default: null
   hapclone_data_file:
     type: string
     minLength: 1
