@@ -174,14 +174,14 @@ rule build_prevs_summary_file:
     input:
         config.merged_prevalence_file
     output:
-        config.cfclone_summary_file
+        config.cfclone_prevs_summary_file
     params:
         c=config.get_coverage,
         t=config.get_tumour_content
     conda:
         "envs/python.yaml"
     log:
-        config.get_log_file(config.cfclone_summary_file)
+        config.get_log_file(config.cfclone_prevs_summary_file)
     shell:
         "(python scripts/write_prevs_summary_file.py "
         "--out-file {output} "
