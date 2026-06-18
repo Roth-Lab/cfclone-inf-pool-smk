@@ -179,6 +179,10 @@ class ConfigManager(object):
     @property
     def merged_evidence_file(self):
         return self.cfclone_out_dir.joinpath("evidence.tsv")
+    
+    @property
+    def merged_prevalence_file(self):
+        return self.cfclone_out_dir.joinpath("prevalence.tsv")
 
     @property
     def merged_summary_file(self):
@@ -213,6 +217,7 @@ class ConfigManager(object):
             self.experiment_configuration,
             self.merged_tumour_content_file,
             self.merged_evidence_file,
+            self.merged_prevalence_file,
             self.merged_summary_file
         )
         
