@@ -203,6 +203,16 @@ class ConfigManager(object):
             "data_seed_{data_seed_id}",
             "cfclone_summary_file.tsv"
         )
+        
+    @property
+    def cfclone_prevs_summary_file(self):
+        return self.tmp_dir.joinpath(
+            "cfclone",
+            "coverage_{coverage_id}",
+            "tc_{tumour_content_id}",
+            "data_seed_{data_seed_id}",
+            "cfclone_prevs_summary_file.tsv"
+        )
     
     # SUMMARY FILES 
     
@@ -213,6 +223,10 @@ class ConfigManager(object):
     @property
     def summary_file(self):
         return self.out_dir.joinpath("summary.tsv")
+    
+    @property
+    def prevs_summary_file(self):
+        return self.out_dir.joinpath("prevs_summary.tsv")
 
     @property
     def pipeline_files(self) -> list[str]:
@@ -242,7 +256,13 @@ class ConfigManager(object):
             for file in file_templates
         ]
         
-        return [self.copied_config] + cfclone_files + [self.summary_file]
+        summary_files = [self.summary_file]
+        
+        if self.clone_tree_nwk_file is not None:
+            
+            summary_files.append(self.prevs_summary_file)
+        
+        return [self.copied_config] + cfclone_files + summary_files
 
     
     def gather_files(self, file_template: str) -> list[str]:
