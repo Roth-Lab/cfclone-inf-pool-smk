@@ -193,6 +193,14 @@ class ConfigManager(object):
     def merged_summary_file(self):
         return self.cfclone_out_dir.joinpath("summary.tsv")
     
+    @property
+    def cfclone_restart_dir(self):
+        return self.cfclone_out_dir.joinpath("restart_{seed}")
+    
+    @property
+    def pairwise_ranks_file(self):
+        return self.cfclone_restart_dir.joinpath("tables", "pairwise_ranks.tsv")
+    
     # CFCLONE SUMMARY FILES 
     
     @property
@@ -262,8 +270,24 @@ class ConfigManager(object):
         if self.clone_tree_nwk_file is not None:
             
             summary_files.append(self.prevs_summary_file)
+            
+            
+        rank_files = [
+            str(self.pairwise_ranks_file).format(
+                coverage_id=cov,
+                tumour_content_id=tc,
+                data_seed_id=ds,
+                seed=ms
+            )
+            for cov, tc, ds, ms in product(
+                self.coverage_ids,
+                self.tumour_content_ids, 
+                range(self.num_data_replicates),
+                range(self.num_model_replicates)
+                )
+        ]
         
-        return [self.copied_config] + cfclone_files + summary_files
+        return [self.copied_config] + cfclone_files + summary_files + rank_files
 
     
     def gather_files(self, file_template: str) -> list[str]:
