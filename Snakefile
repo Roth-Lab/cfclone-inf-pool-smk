@@ -14,23 +14,6 @@ pathvars:
     out_dir=str(config.cfclone_out_dir),
     pipeline_dir=str(config.cfclone_pipeline_dir),
 
-
-onsuccess:
-    config.notification(
-        on="success",
-        workflow="cfclone-inf-pool-power-calc-smk",
-        configfile=workflow.configfiles[0],
-    )
-
-
-onerror:
-    config.notification(
-        on="error", 
-        workflow="cfclone-inf-pool-power-calc-smk",
-        configfile=workflow.configfiles[0],
-    )
-
-
 localrules: build_config_file, build_cfclone_clone_cn_files, build_cfclone_input_clone_cn_file
 
 rule all:

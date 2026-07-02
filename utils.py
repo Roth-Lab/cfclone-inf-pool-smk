@@ -2,8 +2,6 @@ from pathlib import Path
 
 from itertools import product
 
-from snakemake.shell import shell
-
 class ConfigManager(object):
     def __init__(self, config):
         self.config = config
@@ -344,85 +342,3 @@ class ConfigManager(object):
             parent = "output"
         return parent, rel_path
     
-    # HELPERS FOR NOTIFICATIONS
-    
-    @property
-    def email(self) -> str:
-        return self.config.get("email", "lepurmatteo@gmail.com")
-    
-    def notification(self, on: str, workflow: str, configfile: str, imgs: list[str] | None = None) -> None:
-
-        configfile = Path(configfile).resolve()
-
-        msg_template = "configfile:{config}"
-
-        msg = msg_template.format(config=configfile)
-
-        subj_template = "-s {wf}:{n}"
-
-        subj = subj_template.format(wf=workflow, n=on)
-
-        if on == "success":
-            
-            if imgs is not None:
-
-                img_template = "-a {img} "
-                
-                imgs = self.get_imgs_to_send(imgs)
-
-                att = ""
-
-                for i in imgs:
-
-                    att0 = img_template.format(img=i)
-
-                    att += att0
-
-                cmd_template = "echo {msg} | mail {sub} {att} {email}"
-
-                cmd = cmd_template.format(msg=msg, sub=subj, att=att, email=self.email)
-            
-            else:
-                
-                cmd_template = "echo {msg} | mail {sub} {email}"
-
-                cmd = cmd_template.format(msg=msg, sub=subj, email=self.email)
-
-        else:
-
-            cmd_template = "echo {msg} | mail {sub} {email}"
-
-            cmd = cmd_template.format(msg=msg, sub=subj, email=self.email)
-
-        shell(cmd)
-    
-    
-    @staticmethod
-    def get_imgs_to_send(imgs: list[str]) -> list[str]:
-        
-        LIMIT = 10240000
-        
-        ALLOWED = LIMIT * 0.66
-        
-        total_size = 0
-        
-        allowed_imgs = []
-        
-        for img in imgs:
-            
-            file_path = Path(img)
-            
-            file_size = file_path.stat().st_size
-            
-            total_size += file_size
-            
-            if total_size < ALLOWED:
-                
-                allowed_imgs.append(file_path)
-                
-            else:
-                
-                total_size -= file_size
-                
-        return allowed_imgs
-            
