@@ -61,14 +61,13 @@ rule build_cfclone_ctdna_file:
         c=config.get_coverage,
         t=config.get_tumour_content,
     conda:
-        "envs/python.yaml"
+        "envs/cfsim.yaml"
     log:
         config.get_log_file(config.cfclone_ctdna_template),
     benchmark:
         config.get_benchmark_file(config.cfclone_ctdna_template),
     shell:
-        "(python scripts/build_data.py "
-        "--out-file {output} "
+        "(cfsim --out-file {output} "
         "--hapclone-data-file {input.d} "
         "--hapclone-results-file {input.r} "
         "--snp-file {input.s} "
