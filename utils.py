@@ -137,8 +137,8 @@ class ConfigManager(object):
         return self.cfclone_ctdna_dir.joinpath("ctdna.tsv.gz")
         
     @property
-    def ctdna_plot_template(self):
-        return self.out_dir.joinpath("ctdna_plot.png")
+    def cfclone_ctdna_plot_template(self):
+        return self.cfclone_ctdna_dir.joinpath("ctdna.png")
     
     @property
     def cfclone_clone_cn_dir(self):
@@ -242,7 +242,8 @@ class ConfigManager(object):
             self.experiment_configuration,
             self.merged_tumour_content_file,
             self.merged_evidence_file,
-            self.merged_summary_file
+            self.merged_summary_file,
+            self.cfclone_ctdna_plot_template
         ]
         
         if self.clone_tree_nwk_file is not None:

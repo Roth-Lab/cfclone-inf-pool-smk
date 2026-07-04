@@ -80,6 +80,21 @@ rule build_cfclone_ctdna_file:
         "--clone-prevalence-file {params.p}) >{log} 2>&1"
 
 
+rule plot_cfclone_ctdna_file:
+    input:
+        config.cfclone_ctdna_template
+    output:
+        config.cfclone_ctdna_plot_template
+    conda:
+        "envs/cfsim.yaml"
+    log:
+        config.get_log_file(config.cfclone_ctdna_plot_template),
+    benchmark:
+        config.get_benchmark_file(config.cfclone_ctdna_plot_template),
+    shell:
+        "(cfsim plot-cfdna --in-file {input} --out-file {output}) >{log} 2>&1"
+
+
 rule build_cfclone_input_clone_cn_file:
     input:
         config.cfclone_clone_cn_template
