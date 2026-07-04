@@ -2,19 +2,23 @@ import pandas as pd
 
 
 def main(args):
+   
+    df_e = pd.read_csv(args.evidence_file, sep="\t")
+    
+    df_e = df_e.pivot(index="restart", columns="run_type", values="evidence")
+    
+    df_e = df_e.reset_index()
     
     df = pd.read_csv(args.tumour_content_file, sep="\t")
 
     df.add_prefix("tumour_content_", axis=1)
-
-    df_e = pd.read_csv(args.evidence_file, index_col="run_type", sep="\t")
-
-    df["normal_evidence"] = df_e.loc["normal", "evidence"]
-
-    df["full_evidence"] = df_e.loc["full", "evidence"]
-
-    df["bayes_factor"] = df["full_evidence"] - df["normal_evidence"]
-
+    
+    df = df.merge(df_e, on="restart")
+    
+    df['bayes_factor'] = df["full"] - df["normal"]
+    
+    df = df.rename(columns={"full": "full_evidence", "normal": "normal_evidence"})
+    
     df.insert(0, 'coverage', args.coverage)
     
     df.insert(1, 'tumour_content', args.tumour_content)

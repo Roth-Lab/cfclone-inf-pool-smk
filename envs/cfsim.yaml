@@ -13,4 +13,4 @@ dependencies:
   - numpy
   - pip
   - pip:
-    - "git+ssh://git@github.com:matteolepur/cfsim"
+    - "git+ssh://git@github.com/matteolepur/cfsim"

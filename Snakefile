@@ -67,7 +67,8 @@ rule build_cfclone_ctdna_file:
     benchmark:
         config.get_benchmark_file(config.cfclone_ctdna_template),
     shell:
-        "(cfsim --out-file {output} "
+        "(cfsim simulate "
+        "--out-file {output} "
         "--hapclone-data-file {input.d} "
         "--hapclone-results-file {input.r} "
         "--snp-file {input.s} "
