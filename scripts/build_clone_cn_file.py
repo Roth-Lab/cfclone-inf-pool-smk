@@ -1,7 +1,5 @@
-import h5py
 import numpy as np
 import pandas as pd
-
 
 def main(args):
     df = pd.read_csv(args.in_file, sep="\t")
