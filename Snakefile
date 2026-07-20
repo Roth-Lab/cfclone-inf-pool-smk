@@ -14,7 +14,7 @@ pathvars:
     out_dir=str(config.cfclone_out_dir),
     pipeline_dir=str(config.cfclone_pipeline_dir),
 
-localrules: build_config_file, build_cfclone_clone_cn_files, build_cfclone_input_clone_cn_file
+localrules: build_config_file, build_clone_cn_file_then_filter_clones, filter_clones_for_positive_prevalence
 
 rule all:
     input:
@@ -30,7 +30,7 @@ rule build_config_file:
         "cp {input} {output}"
 
 
-rule build_cfclone_clone_cn_files:
+rule build_clone_cn_file_then_filter_clones:
     input:
         c=config.clone_filter_file,
         i=config.hapclone_results_file,
@@ -47,9 +47,26 @@ rule build_cfclone_clone_cn_files:
         "--clone-filter-file {input.c} ) >{log} 2>&1"
 
 
+rule filter_clones_for_positive_prevalence:
+    input:
+        config.cfclone_clone_cn_template
+    output:
+        config.cfclone_clone_cn_template_input
+    conda:
+        "envs/python.yaml"
+    log:
+        config.get_log_file(config.cfclone_clone_cn_template_input),
+    params:
+        config.clone_prevalences
+    shell:
+        "(python scripts/filter_clones_positive_prevs.py "
+        "-i {input} "
+        "-o {output} "
+        "--clone-prevalences-file {params}) >{log} 2>&1"
+
+
 rule build_cfclone_ctdna_file:
     input:
-        c=config.cfclone_clone_cn_template,
         d=config.hapclone_data_file,
         r=config.hapclone_results_file,
         s=config.snp_file,
@@ -93,24 +110,6 @@ rule plot_cfclone_ctdna_file:
         config.get_benchmark_file(config.cfclone_ctdna_plot_template),
     shell:
         "(cfsim plot-cfdna --in-file {input} --out-file {output}) >{log} 2>&1"
-
-
-rule build_cfclone_input_clone_cn_file:
-    input:
-        config.cfclone_clone_cn_template
-    output:
-        config.cfclone_clone_cn_template_input
-    conda:
-        "envs/python.yaml"
-    log:
-        config.get_log_file(config.cfclone_clone_cn_template_input),
-    params:
-        config.clone_prevalences
-    shell:
-        "(python scripts/build_clone_cn_input_file.py "
-        "-i {input} "
-        "-o {output} "
-        "--clone-prevalences-file {params}) >{log} 2>&1"
 
 
 module cfclone:
